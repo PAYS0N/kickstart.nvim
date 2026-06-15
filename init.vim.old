@@ -1,0 +1,26 @@
+call plug#begin()
+
+Plug 'Josiah-tan/plover-vim-tutor'
+Plug 'ThePrimeagen/vim-be-good'
+Plug 'tpope/vim-surround'
+Plug 'mattn/emmet-vim'
+
+call plug#end()
+
+set number          " absolute line number on current line and gutter
+set relativenumber  " relative numbers for all other lines
+set scrolloff=15
+
+"do nothing in normal mode
+nore <c-j> <nop>
+"escape insert mode, then return to insert mode afterwards
+inore <c-j> <c-\><c-o>
+"escape command mode
+cnoremap <c-j> <esc>
+if !has('nvim')
+	" escape terminal mode, then return to terminal mode
+	set termwinkey=<c-j>
+else
+	" escape terminal mode, does not return to terminal mode :<
+	tnoremap <c-j> <C-\><C-n>
+endif

@@ -141,7 +141,7 @@ do
   vim.o.updatetime = 250
 
   -- Decrease mapped sequence wait time
-  vim.o.timeoutlen = 300
+  vim.o.timeoutlen = 1000
 
   -- Configure how new splits should be opened
   vim.o.splitright = true
@@ -171,6 +171,16 @@ do
   -- instead raise a dialog asking if you wish to save the current file(s)
   -- See `:help 'confirm'`
   vim.o.confirm = true
+
+  -- Always use block cursor
+  vim.opt.guicursor = 'a:block'
+
+  -- Don't auto-continue comments on Enter or o/O
+  vim.api.nvim_create_autocmd('FileType', {
+    callback = function()
+      vim.opt_local.formatoptions:remove({ 'r', 'o' })
+    end,
+  })
 end
 
 -- ============================================================
@@ -377,7 +387,7 @@ do
   vim.pack.add { gh 'folke/which-key.nvim' }
   require('which-key').setup {
     -- Delay between pressing a key and opening which-key (milliseconds)
-    delay = 0,
+    delay = 50,
     icons = { mappings = vim.g.have_nerd_font },
     -- Document existing key chains
     spec = {
@@ -877,6 +887,9 @@ do
     },
 
     completion = {
+      menu = {
+        auto_show = false,
+      },
       -- By default, you may press `<c-space>` to show the documentation.
       -- Optionally, set `auto_show = true` to show the documentation after a delay.
       documentation = { auto_show = false, auto_show_delay_ms = 500 },
@@ -900,6 +913,7 @@ do
     -- Shows a signature help window while you type arguments for a function
     signature = { enabled = true },
   }
+
 end
 
 -- ============================================================
